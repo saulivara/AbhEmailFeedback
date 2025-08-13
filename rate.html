@@ -13,8 +13,9 @@
       --muted:#5a5a5a;
       --bg:#ffffff;
       --border:#e5e7eb;
-      --container:760px;
-      --pad:16px;
+      --shell:760px;     /* overall page width */
+      --gap:18px;        /* vertical spacing between blocks */
+      --pad:16px;        /* page side padding */
     }
     *{box-sizing:border-box}
     body{
@@ -23,58 +24,63 @@
       color:var(--text);
       background:#f6f7f9;
     }
-    .container{max-width:var(--container);margin:0 auto;padding:0 var(--pad)}
-    /* Banner matches content width by living in the same container */
-    header{padding:18px 0}
-    .bannerBox{
-      position:relative;
-      background:
-        radial-gradient(1400px 320px at 10% -30%, #0e7aff 0, #0a59c8 45%, #083e8e 78%, #062a63 100%);
-      color:#fff;border-radius:14px;padding:16px;
-      display:flex;align-items:center;gap:16px;overflow:hidden;
+    /* Single shell controls width for both banner and form */
+    .shell{
+      max-width:var(--shell);
+      margin:0 auto;
+      padding:0 var(--pad);
+    }
+
+    /* Banner (same width as form because both live in .shell) */
+    .banner{
+      margin:var(--gap) 0;
+      background: radial-gradient(1400px 320px at 10% -30%, #0e7aff 0, #0a59c8 45%, #083e8e 78%, #062a63 100%);
+      border-radius:14px;
+      padding:16px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      color:#fff;
+      overflow:hidden;
       box-shadow:0 16px 40px rgba(10,89,200,.18);
+      position:relative;
       isolation:isolate;
     }
-    /* Subtle decorative shapes */
-    .bannerBox::before,
-    .bannerBox::after{
-      content:"";position:absolute;inset:auto auto -30% -30%;
-      width:380px;height:380px;border-radius:50%;
-      background:radial-gradient(closest-side, rgba(255,255,255,.2), rgba(255,255,255,0));
-      filter:blur(30px);z-index:0;
+    .banner::before,.banner::after{
+      content:"";position:absolute;z-index:0;border-radius:50%;
+      background:radial-gradient(closest-side, rgba(255,255,255,.18), rgba(255,255,255,0));
+      filter:blur(30px);
     }
-    .bannerBox::after{
-      inset:-40% -25% auto auto;width:300px;height:300px;
-      background:radial-gradient(closest-side, rgba(11,102,224,.45), rgba(11,102,224,0));
-    }
-    /* Headshot with gradient ring and soft shadow */
-    .headshotWrap{
-      position:relative;z-index:1;flex:0 0 auto;
-      display:grid;place-items:center;
-    }
+    .banner::before{width:360px;height:360px;left:-28%;bottom:-28%}
+    .banner::after {width:280px;height:280px;right:-22%;top:-42%;background:radial-gradient(closest-side, rgba(11,102,224,.45), rgba(11,102,224,0))}
+
+    .headshotWrap{z-index:1;display:grid;place-items:center;flex:0 0 auto}
     .ring{
-      --ring-size:76px;
-      width:var(--ring-size);height:var(--ring-size);
-      border-radius:50%;
-      padding:3px;
-      background:conic-gradient(from 220deg at 50% 50%, #a9d1ff, #7aaeff, #4c86ff, #a9d1ff);
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.25),
-        0 2px 6px rgba(0,0,0,.12);
+      --size:76px;
+      width:var(--size);height:var(--size);
+      padding:3px;border-radius:50%;
+      background:conic-gradient(from 220deg, #a9d1ff, #7aaeff, #4c86ff, #a9d1ff);
+      box-shadow:0 10px 24px rgba(0,0,0,.25), 0 2px 6px rgba(0,0,0,.12);
     }
     .headshot{
       width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;
-      background:#dce6f3;
-      border:2px solid rgba(255,255,255,.65);
+      background:#dce6f3;border:2px solid rgba(255,255,255,.65)
     }
     .brand{z-index:1}
-    .brand h1{font-size:20px;line-height:1.1;margin:0;font-weight:800;letter-spacing:.2px}
+    .brand h1{margin:0;font-size:20px;line-height:1.1;font-weight:800;letter-spacing:.2px}
     .brand .sub{display:block;font-weight:600;opacity:.95;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
-    main{
-      max-width:var(--container);margin:18px auto;background:var(--bg);
-      border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.06);padding:24px var(--pad);
+
+    /* Form card */
+    .card{
+      background:var(--bg);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:0 8px 28px rgba(0,0,0,.06);
+      padding:24px var(--pad);
+      margin:var(--gap) 0;
+      width:100%;
     }
-    h2{font-size:28px;margin:0 0 8px 0}
+    h2{font-size:28px;margin:0 0 8px}
     p.lead{color:var(--muted);margin-top:0}
     form{margin-top:20px}
     fieldset{border:0;padding:0;margin:18px 0}
@@ -82,122 +88,117 @@
     .option{display:flex;align-items:center;gap:10px;margin:8px 0}
     .option input{width:18px;height:18px}
     .stars{font-size:20px;line-height:1}
-    .gold{color:var(--accent)}
-    .gray{color:#cbd5e1}
+    .gold{color:var(--accent)} .gray{color:#cbd5e1}
     textarea{
       width:100%;min-height:120px;padding:10px;border:1px solid var(--border);border-radius:10px;resize:vertical;font:inherit;
     }
     .actions{margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     button{
       appearance:none;border:0;border-radius:10px;background:var(--brand);color:#fff;
-      padding:12px 18px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(11,102,224,.28);
+      padding:12px 18px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(11,102,224,.28)
     }
     button:hover{background:var(--brand-dark)}
     .note{font-size:12px;color:var(--muted);margin-top:14px}
-    footer{max-width:var(--container);margin:22px auto 40px auto;color:#6b7280;font-size:12px;border-top:1px solid var(--border);padding:0 var(--pad);padding-top:16px}
     .success,.error{border-radius:10px;padding:12px 14px;margin-top:12px;font-size:15px}
     .success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
     .error{background:#fff1f2;color:#9f1239;border:1px solid #fecdd3}
     .hidden{display:none}
+
+    footer{margin:var(--gap) 0 40px;color:#6b7280;font-size:12px;border-top:1px solid var(--border);padding-top:16px}
+
     @media (max-width:640px){
       .brand h1{font-size:18px}
-      .ring{--ring-size:68px}
-      main{padding:18px var(--pad);border-radius:12px}
+      .ring{--size:68px}
+      .card{padding:18px var(--pad)}
       .stars{font-size:18px}
     }
   </style>
 </head>
 <body>
-  <header role="banner">
-    <div class="container">
-      <div class="bannerBox">
-        <div class="headshotWrap" aria-hidden="true">
-          <div class="ring">
-            <img class="headshot" src="https://advancedbiohealth.com/wp-content/uploads/2025/08/AlanWalker.jpeg" alt="Portrait of Alan Walker" />
-          </div>
-        </div>
-        <div class="brand" aria-label="Alan Walker Health News">
-          <h1>
-            Alan Walker
-            <span class="sub">Health News</span>
-          </h1>
+  <div class="shell">
+    <header role="banner" class="banner">
+      <div class="headshotWrap" aria-hidden="true">
+        <div class="ring">
+          <!-- Use your uploaded image path here -->
+          <img class="headshot" src="https://advancedbiohealth.com/wp-content/uploads/2025/08/AlanWalker.jpeg" alt="Portrait of Alan Walker" />
         </div>
       </div>
-    </div>
-  </header>
-
-  <main role="main">
-    <h2>Rate This Email</h2>
-    <p class="lead">We value our subscribers’ feedback. Please rate this email.</p>
-
-    <!-- Non-JS fallback posts to submit_rating.php; JS will still use fetch and then redirect -->
-    <form id="rateForm" action="submit_rating.php" method="post" novalidate>
-      <fieldset>
-        <legend>How would you rate the content of this email?</legend>
-
-        <label class="option">
-          <input type="radio" name="rating" value="5" required />
-          <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span></span>
-          <span>5 Stars</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="rating" value="4" />
-          <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gray">★</span></span>
-          <span>4 Stars</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="rating" value="3" />
-          <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gray">★</span><span class="gray">★</span></span>
-          <span>3 Stars</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="rating" value="2" />
-          <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gray">★</span><span class="gray">★</span><span class="gray">★</span></span>
-          <span>2 Stars</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="rating" value="1" />
-          <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gray">★</span><span class="gray">★</span><span class="gray">★</span><span class="gray">★</span></span>
-          <span>1 Star</span>
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend>I would like to:</legend>
-        <label class="option"><input type="radio" name="preference" value="more" required /> <span>Receive more content like this</span></label>
-        <label class="option"><input type="radio" name="preference" value="less" /> <span>Receive less content like this</span></label>
-        <label class="option"><input type="radio" name="preference" value="stop" /> <span>Stop receiving content like this</span></label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Comments:</legend>
-        <textarea name="comments" placeholder="Tell us more (optional)"></textarea>
-      </fieldset>
-
-      <div class="actions">
-        <button type="submit" aria-label="Submit your rating">Submit</button>
-        <span id="status" class="note" aria-live="polite"></span>
+      <div class="brand" aria-label="Alan Walker Health News">
+        <h1>Alan Walker <span class="sub">Health News</span></h1>
       </div>
+    </header>
 
-      <p class="note">
-        *This form is for email feedback only. For subscription questions, please contact our Customer Service team.
-      </p>
+    <main role="main" class="card">
+      <h2>Rate This Email</h2>
+      <p class="lead">We value our subscribers’ feedback. Please rate this email.</p>
 
-      <div id="success" class="success hidden" role="status">Thank you for your feedback.</div>
-      <div id="error" class="error hidden" role="alert">Sorry, something went wrong. Please try again in a moment.</div>
-    </form>
-  </main>
+      <!-- Non-JS fallback posts to submit_rating.php; JS will submit via fetch then redirect -->
+      <form id="rateForm" action="submit_rating.php" method="post" novalidate>
+        <fieldset>
+          <legend>How would you rate the content of this email?</legend>
 
-  <footer>
-    <div class="container">
+          <label class="option">
+            <input type="radio" name="rating" value="5" required />
+            <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span></span>
+            <span>5 Stars</span>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="rating" value="4" />
+            <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gray">★</span></span>
+            <span>4 Stars</span>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="rating" value="3" />
+            <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gold">★</span><span class="gray">★</span><span class="gray">★</span></span>
+            <span>3 Stars</span>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="rating" value="2" />
+            <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gold">★</span><span class="gray">★</span><span class="gray">★</span><span class="gray">★</span></span>
+            <span>2 Stars</span>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="rating" value="1" />
+            <span class="stars" aria-hidden="true"><span class="gold">★</span><span class="gray">★</span><span class="gray">★</span><span class="gray">★</span><span class="gray">★</span></span>
+            <span>1 Star</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>I would like to:</legend>
+          <label class="option"><input type="radio" name="preference" value="more" required /> <span>Receive more content like this</span></label>
+          <label class="option"><input type="radio" name="preference" value="less" /> <span>Receive less content like this</span></label>
+          <label class="option"><input type="radio" name="preference" value="stop" /> <span>Stop receiving content like this</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Comments:</legend>
+          <textarea name="comments" placeholder="Tell us more (optional)"></textarea>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit" aria-label="Submit your rating">Submit</button>
+          <span id="status" class="note" aria-live="polite"></span>
+        </div>
+
+        <p class="note">
+          *This form is for email feedback only. For subscription questions, please contact our Customer Service team.
+        </p>
+
+        <div id="success" class="success hidden" role="status">Thank you for your feedback.</div>
+        <div id="error" class="error hidden" role="alert">Sorry, something went wrong. Please try again in a moment.</div>
+      </form>
+    </main>
+
+    <footer>
       <p>© Alan Walker Health News. Protected by copyright laws. This website may only be used for feedback on the email you received.</p>
       <p>Update this line with your company address and legal text.</p>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <script>
     // AJAX submit -> MySQL via submit_rating.php, then redirect to thankyou.html
@@ -206,7 +207,6 @@
     const errorEl = document.getElementById('error');
     const statusEl = document.getElementById('status');
 
-    // Read identifiers from query string; add as hidden fields for server
     const params = new URLSearchParams(location.search);
     const meta = {
       page_url: location.href,
@@ -221,7 +221,7 @@
     };
 
     function addHidden(name, value){
-      if (value == null || value === "") return;
+      if (!value) return;
       const i = document.createElement('input');
       i.type = 'hidden'; i.name = name; i.value = value;
       form.appendChild(i);
@@ -241,15 +241,9 @@
         statusEl.textContent = "Please select a rating and a preference.";
         return;
       }
-
       statusEl.textContent = "Submitting…";
 
-      const payload = {
-        rating: Number(rating),
-        preference,
-        comments,
-        ...meta
-      };
+      const payload = { rating: Number(rating), preference, comments, ...meta };
 
       try{
         const res = await fetch(form.action, {
@@ -261,7 +255,6 @@
         const data = await res.json();
         if (!data.ok) throw new Error('Insert failed');
 
-        // Build redirect with rating param for the thank-you page
         const redirectParams = new URLSearchParams({
           rating: String(payload.rating),
           pref: payload.preference || ''

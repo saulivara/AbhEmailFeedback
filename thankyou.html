@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thank You — Alan Walker Health News</title>
+  <style>
+    :root{
+      --brand:#0b66e0;
+      --brand-dark:#0a4fb0;
+      --text:#111;
+      --muted:#5a5a5a;
+      --bg:#ffffff;
+      --border:#e5e7eb;
+      --container:760px;
+      --pad:16px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;background:#f6f7f9;color:var(--text)}
+    .container{max-width:var(--container);margin:0 auto;padding:0 var(--pad)}
+    header{padding:18px 0}
+    .bannerBox{
+      background: radial-gradient(1400px 320px at 10% -30%, #0e7aff 0, #0a59c8 45%, #083e8e 78%, #062a63 100%);
+      color:#fff;border-radius:14px;padding:16px;
+      display:flex;align-items:center;gap:16px;box-shadow:0 16px 40px rgba(10,89,200,.18)
+    }
+    .badge{
+      width:46px;height:46px;border-radius:10px;display:grid;place-items:center;
+      background:#fff;color:#0b66e0;font-weight:800
+    }
+    .brand h1{font-size:20px;line-height:1.1;margin:0;font-weight:800}
+    .brand .sub{display:block;font-weight:600;opacity:.95;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+    main{
+      max-width:var(--container);margin:18px auto;background:var(--bg);
+      border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.06);padding:28px var(--pad);text-align:center
+    }
+    h2{font-size:28px;margin:0 0 10px}
+    p{color:#444}
+    .stars{font-size:22px;margin:8px 0 0}
+    .gold{color:#f1c40f}.gray{color:#cbd5e1}
+    .btn{
+      display:inline-block;margin-top:18px;background:var(--brand);color:#fff;text-decoration:none;
+      font-weight:700;padding:12px 18px;border-radius:10px;box-shadow:0 4px 12px rgba(11,102,224,.28)
+    }
+    footer{max-width:var(--container);margin:22px auto 40px auto;color:#6b7280;font-size:12px;border-top:1px solid var(--border);padding:0 var(--pad);padding-top:16px}
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <div class="container">
+      <div class="bannerBox">
+        <div class="badge">AW</div>
+        <div class="brand">
+          <h1>Alan Walker <span class="sub">Health News</span></h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+    <h2>Thank you for your feedback!</h2>
+    <p>Your response helps us improve the content we send you.</p>
+    <div id="ratingView" class="stars" aria-hidden="true"></div>
+    <a class="btn" href="/">Back to website</a>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© Alan Walker Health News.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Show the rating (if passed) as stars
+    const p = new URLSearchParams(location.search);
+    const r = Math.max(1, Math.min(5, parseInt(p.get('rating') || '0', 10)));
+    const box = document.getElementById('ratingView');
+    if (r){
+      let stars = '';
+      for (let i=1;i<=5;i++) stars += `<span class="${i<=r?'gold':'gray'}">★</span>`;
+      box.innerHTML = stars;
+      box.setAttribute('aria-label', `You rated ${r} out of 5 stars`);
+    } else {
+      box.style.display='none';
+    }
+  </script>
+</body>
+</html>
